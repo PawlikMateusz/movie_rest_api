@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from .serializers import MovieSerializer, CommentSerializer
 from .services import (
     fetch_and_validate_movie,
-    sort_and_add_rank,
+    add_rank_field,
 )
 from .models import Movie, Comment
 
@@ -20,6 +20,8 @@ class MovieViewSet(APIView):
         if not 'title' in request.data:
             return Response({'Error': "Please add title param :)"}, status=status.HTTP_400_BAD_REQUEST)
         movie_data = fetch_and_validate_movie(request.data['title'])
+        if type(movie_data) is Response:
+            return movie_data
         movie_serializer = MovieSerializer(data=movie_data)
         if movie_serializer.is_valid():
             movie_serializer.save()
@@ -55,13 +57,13 @@ class TopMoviesView(generics.ListAPIView):
     filterset_class = TopMoviesFilter
 
     def list(self, request, *args, **kwargs):
-        start_date = self.request.GET.get('start_date')
-        end_date = self.request.GET.get('end_date')
-        if start_date > end_date:
+        start_date = self.request.GET.get('start_date', None)
+        end_date = self.request.GET.get('end_date', None)
+        if (start_date and end_date) and (start_date > end_date):
             return Response({'Error': "You provided wrong date range! Start date is bigger than end date"},
                             status=status.HTTP_400_BAD_REQUEST)
         movie_list = self.filter_queryset(self.queryset)
         movie_list = movie_list.values(
             'movie_id').annotate(total_comments=Count('movie')).order_by('-total_comments')
-        movie_list = sort_and_add_rank(movie_list)
+        movie_list = add_rank_field(movie_list)
         return Response(movie_list, status=status.HTTP_200_OK)

@@ -22,7 +22,7 @@ def fetch_and_validate_movie(title):
     return movie
 
 
-def sort_and_add_rank(movie_list):
+def add_rank_field(movie_list):
     rank = 0
     previus_number_of_comments = 0
     for movie in movie_list:
