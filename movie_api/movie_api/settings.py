@@ -6,7 +6,7 @@ ROOT_DIR = environ.Path(__file__) - 3
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False)
+    DEBUG=(bool, True)
 )
 # reading .env file
 environ.Env.read_env(str(ROOT_DIR.path('.env')))
