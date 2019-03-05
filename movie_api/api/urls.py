@@ -7,10 +7,10 @@ app_name = "api"
 
 router = routers.SimpleRouter()
 router.register('comments', CommentViewSet)
-
+router.register('movies', MovieViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('movies/', MovieViewSet.as_view(), name='movies'),
+    # path('movies/', MovieViewSet.as_view(), name='movies'),
     path('top/', TopMoviesView.as_view(), name='top_movies')
 ]

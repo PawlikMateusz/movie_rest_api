@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.db.models import Count
 
 from django_filters import rest_framework as filters
+from rest_framework import filters as rest_filters
 from rest_framework.views import APIView
 from rest_framework import status, mixins, viewsets, generics
 from rest_framework.response import Response
@@ -15,7 +16,13 @@ from .services import (
 from .models import Movie, Comment
 
 
-class MovieViewSet(APIView):
+class MovieViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    filter_backends = (rest_filters.SearchFilter, rest_filters.OrderingFilter,)
+    search_fields = ('Actors', 'Genre')
+    ordering_fields = ('imdbRating',)
+
     def post(self, request, *args, **kwargs):
         if not 'title' in request.data:
             return Response({'Error': "Please add title param :)"}, status=status.HTTP_400_BAD_REQUEST)
