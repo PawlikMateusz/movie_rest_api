@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'movie_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('POSTGRES_NAME'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('POSTGRES_HOST'),
-        'PORT': env('POSTGRES_PORT'),
+        'NAME': env('POSTGRES_NAME', default='default_for_deployment'),
+        'USER': env('POSTGRES_USER', default='default_for_deployment'),
+        'PASSWORD': env('POSTGRES_PASSWORD', default='default_for_deployment'),
+        'HOST': env('POSTGRES_HOST', default='default_for_deployment'),
+        'PORT': env('POSTGRES_PORT', default='default_for_deployment'),
     }
 }
 
