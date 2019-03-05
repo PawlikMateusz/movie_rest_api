@@ -23,10 +23,11 @@ class MovieViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.Gene
     search_fields = ('Actors', 'Genre')
     ordering_fields = ('imdbRating',)
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         if not 'title' in request.data:
             return Response({'Error': "Please add title param :)"}, status=status.HTTP_400_BAD_REQUEST)
         movie_data = fetch_and_validate_movie(request.data['title'])
+        print(movie_data)
         if type(movie_data) is Response:
             return movie_data
         movie_serializer = MovieSerializer(data=movie_data)
@@ -35,7 +36,7 @@ class MovieViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.Gene
             return Response(movie_serializer.data, status=status.HTTP_201_CREATED)
         return Response(movie_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         return Response(MovieSerializer(Movie.objects.all(), many=True).data, status=status.HTTP_200_OK)
 
 
