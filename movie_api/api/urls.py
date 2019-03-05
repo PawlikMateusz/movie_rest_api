@@ -11,6 +11,5 @@ router.register('movies', MovieViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('movies/', MovieViewSet.as_view(), name='movies'),
     path('top/', TopMoviesView.as_view(), name='top_movies')
 ]

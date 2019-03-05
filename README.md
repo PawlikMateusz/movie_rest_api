@@ -21,27 +21,40 @@ To install and run this project you must have to install locally PostgreSQL db s
 <ol>
 <li>Install PostgresSQL service</li>
 <li>Configure new database and db user, then fire up db service</li>
-<li>Create .env file in email_api/email_api folder(right next to setting.py file), then fill it with your configuration:
+<li>Create .env file in root project folder(right next to requirements.txt file), then fill it with your configuration:
+
+You neded to provide api key from http://www.omdbapi.com/
 
 ```
 # Django Settings
-# ------------------------------------------
+# ------------------------------------------------------
 SECRET_KEY=
-DEBUG=on
-
+DEBUG=
 
 # PostgreSQL
-# ------------------------------------------
+# ------------------------------------------------------
 POSTGRES_NAME=
 POSTGRES_HOST=
 POSTGRES_PORT=
 POSTGRES_USER=
 POSTGRES_PASSWORD=
+
+# OMDb API_KEY
+# ------------------------------------------------------
+API_KEY=
 ```
 </li>
 <li>Create virtual environment and install requirements from requirements.txt file  
 </li>
 <li>Activate virtual environment 
+</li>
+</li>
+<li>Make migrations
+
+```
+python manage.py makemigrations
+python manage.py migrate
+```
 </li>
 
 <li>Fire up Django server:
