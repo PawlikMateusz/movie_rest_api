@@ -1,5 +1,6 @@
 import os
 import environ
+import django_heroku
 
 ROOT_DIR = environ.Path(__file__) - 3
 
@@ -123,3 +124,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
