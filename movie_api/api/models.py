@@ -12,25 +12,39 @@ class Rating(models.Model):
 
 class Movie(models.Model):
     Title = models.CharField(max_length=200)
-    Year = models.PositiveIntegerField()
-    Rated = models.CharField(max_length=20)
-    Released = models.CharField(max_length=50)
-    Runtime = models.CharField(max_length=10)
-    Genre = models.CharField(max_length=100)
-    Director = models.CharField(max_length=100)
-    Writer = models.CharField(max_length=300)
-    Actors = models.CharField(max_length=200)
-    Plot = models.TextField()
-    Language = models.CharField(max_length=100)
-    Country = models.CharField(max_length=20)
-    Awards = models.CharField(max_length=200)
-    Poster = models.CharField(max_length=300)
-    Metascore = models.CharField(max_length=30)
-    imdbRating = models.DecimalField(max_digits=2, decimal_places=1)
-    imdbVotes = models.CharField(max_length=30)
+    Year = models.CharField(max_length=10, null=True, blank=True)
+    Rated = models.CharField(max_length=20, null=True, blank=True)
+    Released = models.CharField(max_length=50, null=True, blank=True)
+    Runtime = models.CharField(max_length=10, null=True, blank=True)
+    Genre = models.CharField(max_length=100, null=True, blank=True)
+    Director = models.CharField(max_length=100, null=True, blank=True)
+    Writer = models.CharField(max_length=300, null=True, blank=True)
+    Actors = models.CharField(max_length=200, null=True, blank=True)
+    Plot = models.TextField(null=True, blank=True)
+    Language = models.CharField(max_length=100, null=True, blank=True)
+    Country = models.CharField(max_length=20, null=True, blank=True)
+    Awards = models.CharField(max_length=200, null=True, blank=True)
+    Poster = models.CharField(max_length=300, null=True, blank=True)
+    Metascore = models.CharField(max_length=30, null=True, blank=True)
+    imdbRating = models.DecimalField(
+        max_digits=2, decimal_places=1, null=True, blank=True)
+    imdbVotes = models.CharField(max_length=30, null=True, blank=True)
     imdbID = models.CharField(max_length=100)
-    Type = models.CharField(max_length=30)
-    DVD = models.CharField(max_length=30)
-    BoxOffice = models.CharField(max_length=100)
-    Production = models.CharField(max_length=50)
-    Website = models.CharField(max_length=300)
+    Type = models.CharField(max_length=30, null=True, blank=True)
+    DVD = models.CharField(max_length=30, null=True, blank=True)
+    BoxOffice = models.CharField(max_length=100, null=True, blank=True)
+    Production = models.CharField(max_length=50, null=True, blank=True)
+    Website = models.CharField(max_length=300, null=True, blank=True)
+
+    def __str__(self):
+        return self.Title
+
+
+class Comment(models.Model):
+    movie = models.ForeignKey(
+        Movie, on_delete=models.CASCADE, related_name='comments')
+    text = models.CharField(max_length=300)
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text
