@@ -24,7 +24,7 @@ SECRET_KEY = env('SECRET_KEY', default='my-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['salty-fortress-72016.herokuapp.com', 'localhost']
 
 
 # Application definition

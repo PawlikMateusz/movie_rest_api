@@ -65,7 +65,7 @@ class TestFetchData(TestCase):
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     @pytest.mark.django_db
-    def test_if_movie_exist_in_app_db(self, mock_get):
+    def test_if_movie_already_exist_in_app_db(self, mock_get):
         movie_in_app_db = MovieFactory(
             Title="Shallow", imdbID='tt2203808')
         mock_get.return_value = Mock(ok=True)
@@ -101,11 +101,11 @@ class TestAddRank(TestCase):
             }
         ]
 
-    def test_if_there_is_added_rank(self):
+    def test_if_there_is_added_rank_to_dict(self):
         ranked_list = add_rank_field(self.movie_list)
         assert next(iter(ranked_list))['rank']
 
-    def test_if_rank_similar_total_comments(self):
+    def test_rank_for_the_same_number_of_comments(self):
         ranked_list = add_rank_field(self.movie_list)
         assert ranked_list[2]['rank'] == ranked_list[1]['rank']
 

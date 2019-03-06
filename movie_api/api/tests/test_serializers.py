@@ -1,9 +1,13 @@
 from django.test import TestCase
+from django.shortcuts import get_object_or_404
+
 import pytest
 
 from api.serializers import MovieSerializer
+from api.models import Rating, Movie
 
 
+@pytest.mark.django_db
 class TestFetchData(TestCase):
     def setUp(self):
         self.movie = {
@@ -40,7 +44,21 @@ class TestFetchData(TestCase):
         }
         self.serializer = MovieSerializer(data=self.movie)
 
-    def test_contains_expected_fields(self):
+    def test_contains_required_fields(self):
+        self.serializer.is_valid()
+        data = self.serializer.data
+        assert data['imdbID']
+        assert data['Title']
+
+    def test_if_objects_are_created(self):
+        self.serializer.is_valid()
+        movie = self.serializer.save()
+        rating = get_object_or_404(Rating, Movie=movie)
+        assert type(rating) == Rating
+        assert type(movie) == Movie
+
+    def test_if_serializers_returns_correct_data(self):
         self.serializer.is_valid()
         data = self.serializer.data
         assert data['imdbID'] == self.movie['imdbID']
+        assert data['Title'] == self.movie['Title']
